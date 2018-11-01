@@ -30,8 +30,6 @@ function Game(playerOneName) {
 Game.prototype.deal = function() {
   (this.playerHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
   (this.AIHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
-  (this.playerHand).displayHand();
-  (this.AIHand).displayPartialHand();
 }
 
 Game.prototype.endRound = function() {
@@ -43,21 +41,40 @@ Hand.prototype.addCards = function(cards) {
   for(var i = 0; i < cards.length; i++) {
     (this.hand).push(cards[i]);
   }
+  if(this.owner != "House") {
+    this.displayHand("player");
+  } else {
+    this.displayPartialHand();
+  }
+  return this.isOver21();
 }
 
 Hand.prototype.clearHand = function() {
   return (this.hand).splice(0, (this.hand).length);
 }
 
-Hand.prototype.displayHand = function() {
+Hand.prototype.displayHand = function(target) {
+  $("#" + target + "HandImg").html("");
+  $("#" + target + "HandList").html("");
   (this.hand).forEach(function(card) {
-    $("#playerHandList").append("<li>" + card.name + "</li>")
+    $("#" + target + "HandList").append("<li>" + card.name + "</li>")
     showImage(card.imageSrc, "player");
   });
 }
 
 Hand.prototype.getValue = function() {
+  var value = 0;
+  for(var i = 0; i < (this.hand).length; i++) {
+    value += (this.hand)[i].value;
+  }
+  return value;
+}
 
+Hand.prototype.isOver21 = function() {
+  if(this.getValue() > 21) {
+    return true;
+  }
+  return false;
 }
 
 Hand.prototype.displayPartialHand = function() {
@@ -90,7 +107,7 @@ var showImage = function(src, target) {
   img.width = 200;
   img.height = 300;
   img.alt = "card";
-  $("#" + target + "Hand").append(img);
+  $("#" + target + "HandImg").append(img);
 }
 
 function makeCards() {
@@ -115,12 +132,17 @@ function makeCards() {
 $(document).ready(function() {
   var game = new Game("test");
   $("#deal").click(function() {
-    $("#card-list").html("");
-    $("#cardImages").html("");
+    $("#houseHandImg").html("");
+    $("#houseHandList").html("");
+    $("#playerHandImg").html("");
+    $("#playerHandList").html("");
     game.deal();
-    game.endRound();
+    // game.endRound();
   })
   $("#hitButton").click(function() {
-    (game.playerHand).addCards(1);
+    var bust = (game.playerHand).addCards((game.deck).getCards(1));
+    if(bust) {
+      $("#results").text("Sorry bub!  You went bust!");
+    }
   })
 });
