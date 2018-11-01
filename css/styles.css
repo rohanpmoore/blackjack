@@ -1,3 +1,7 @@
+body {
+  background-color: #ccc;
+}
+
 img {
   margin: 5px;
 }
@@ -8,6 +12,13 @@ button {
 
 .container {
   text-align: center;
+}
+
+.jumbotron {
+  background-color: #1A0CE8;
+  color: white;
+  border: solid #FFF90D 5px;
+  text-shadow: 2px 2px black;
 }
 
 #houseHandList {
@@ -27,9 +38,23 @@ button {
 
 #gameBoard {
   display: none;
+  background-color: #1B9B14;
+  border: solid #FFF90D 5px;
+  margin-bottom: 5px;
+  color: white;
+  text-shadow: 2px 2px black;
+  border-radius: 25px;
 }
 
 #results {
   font-weight: bold;
   font-size: 14pt;
+}
+
+#hitButton {
+  display: none;
+}
+
+#stayButton {
+  display: none;
 }

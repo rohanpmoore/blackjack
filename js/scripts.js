@@ -161,6 +161,8 @@ $(document).ready(function() {
     $("#playerHandImg").html("");
     $("#playerHandList").html("");
     $("#gameBoard").show();
+    $("#hitButton").show();
+    $("#stayButton").show();
     $("#deal").text("Play another round?");
     game.deal();
   })
