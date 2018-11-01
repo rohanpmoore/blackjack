@@ -10,10 +10,11 @@ function Deck() {
   this.cards = makeCards();
 }
 
-function Card(name, imageSrc, value) {
+function Card(name, imageSrc, value, isAce) {
   this.name = name;
   this.imageSrc = imageSrc;
   this.value = value;
+  this.isAce = isAce;
 }
 
 function Hand(owner) {
@@ -84,7 +85,13 @@ Hand.prototype.displayHand = function(target) {
 Hand.prototype.getValue = function() {
   var value = 0;
   for(var i = 0; i < (this.hand).length; i++) {
-    value += (this.hand)[i].value;
+    var card = (this.hand)[i];
+    value += card.value;
+  }
+  for(var i = 0; i < (this.hand).length; i++) {
+    if((this.hand)[i].isAce && value < 12) {
+      value += 10;
+    }
   }
   return value;
 }
@@ -144,7 +151,7 @@ function makeCards() {
     });
   });
   for(i = 0; i < DECK_SIZE; i++) {
-    output.push(new Card(cardNames[i], images[i], Math.min(10, (i % 13) + 1)))
+    output.push(new Card(cardNames[i], images[i], Math.min(10, (i % 13) + 1), i % 13 === 0))
   }
   console.log(output);
   return output;
