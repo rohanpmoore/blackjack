@@ -4,6 +4,8 @@ const SUITS = ["clubs", "diamonds", "hearts", "spades"];
 
 const DECK_SIZE = 52;
 
+const INITIAL_HAND_SIZE = 7;
+
 function Deck() {
   this.cards = makeCards();
 }
@@ -25,8 +27,8 @@ function Game(playerOneName) {
 }
 
 Game.prototype.deal = function() {
-  (this.playerHand).addCards((this.deck).getCards(2));
-  (this.AIHand).addCards((this.deck).getCards(2));
+  (this.playerHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
+  (this.AIHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
   (this.playerHand).displayHand();
 }
 
@@ -55,7 +57,7 @@ Hand.prototype.displayHand = function() {
 Deck.prototype.getCards = function(handSize) {
   var hand = [];
   for(var i = 0; i < handSize; i++) {
-    hand.push((this.cards).splice(Math.floor(Math.random()*52), 1)[0]);
+    hand.push((this.cards).splice(Math.floor(Math.random()*(this.cards).length), 1)[0]);
   }
   return hand;
 }
