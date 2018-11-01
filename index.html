@@ -10,13 +10,20 @@
   </head>
   <body>
     <div class="container">
-      <button class="btn-default" id="deal">Deal yourself a hand!</button>
+      <button class="btn-default" id="deal">Start the game!</button>
       <p>Your hand is as follows:</p>
-      <ul id="card-list">
-      </ul>
-      <div id="cardImages">
-
+      <div id="houseHand">
+        <h1>House: </h1>
+        <p>These are the house's cards!</p>
+        <ul id="houseHandList"></ul>
       </div>
+      <div id="playerHand">
+        <h1>Player:</h1>
+        <p>These are your cards!</p>
+        <ul id="playerHandList"></ul>
+      </div>
+      <button type="button" id="hitButton">Hit</button>
+      <button type="button" id="stayButton">Stay</button>
     </div>
   </body>
 </html>

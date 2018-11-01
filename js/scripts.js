@@ -4,15 +4,16 @@ const SUITS = ["clubs", "diamonds", "hearts", "spades"];
 
 const DECK_SIZE = 52;
 
-const INITIAL_HAND_SIZE = 7;
+const INITIAL_HAND_SIZE = 2;
 
 function Deck() {
   this.cards = makeCards();
 }
 
-function Card(name, imageSrc) {
+function Card(name, imageSrc, value) {
   this.name = name;
   this.imageSrc = imageSrc;
+  this.value = value;
 }
 
 function Hand(owner) {
@@ -30,6 +31,7 @@ Game.prototype.deal = function() {
   (this.playerHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
   (this.AIHand).addCards((this.deck).getCards(INITIAL_HAND_SIZE));
   (this.playerHand).displayHand();
+  (this.AIHand).displayPartialHand();
 }
 
 Game.prototype.endRound = function() {
@@ -49,9 +51,23 @@ Hand.prototype.clearHand = function() {
 
 Hand.prototype.displayHand = function() {
   (this.hand).forEach(function(card) {
-    $("#card-list").append("<li>" + card.name + "</li>")
-    showImage(card.imageSrc);
+    $("#playerHandList").append("<li>" + card.name + "</li>")
+    showImage(card.imageSrc, "player");
   });
+}
+
+Hand.prototype.getValue = function() {
+
+}
+
+Hand.prototype.displayPartialHand = function() {
+  $("#houseHandList").append("<li>Unknown Card</li>");
+  showImage("img/back.jpg", "house");
+  for(var i = 1; i < (this.hand).length; i++) {
+    var card = this.hand[i]
+    $("#houseHandList").append("<li>" + card.name + "</li>");
+    showImage(card.imageSrc, "house");
+  }
 }
 
 Deck.prototype.getCards = function(handSize) {
@@ -68,13 +84,13 @@ Deck.prototype.returnToDeck = function(cards) {
   }
 }
 
-var showImage = function(src) {
+var showImage = function(src, target) {
   var img = document.createElement("img");
   img.src = src;
   img.width = 200;
   img.height = 300;
   img.alt = "card";
-  $("#cardImages").append(img);
+  $("#" + target + "Hand").append(img);
 }
 
 function makeCards() {
@@ -90,8 +106,9 @@ function makeCards() {
     });
   });
   for(i = 0; i < DECK_SIZE; i++) {
-    output.push(new Card(cardNames[i], images[i]))
+    output.push(new Card(cardNames[i], images[i], Math.min(10, (i % 13) + 1)))
   }
+  console.log(output);
   return output;
 }
 
@@ -102,5 +119,8 @@ $(document).ready(function() {
     $("#cardImages").html("");
     game.deal();
     game.endRound();
+  })
+  $("#hitButton").click(function() {
+    (game.playerHand).addCards(1);
   })
 });
