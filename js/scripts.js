@@ -37,6 +37,25 @@ Game.prototype.endRound = function() {
   (this.deck).returnToDeck((this.AIHand).clearHand());
 }
 
+Game.prototype.stay = function() {
+  while((this.AIHand).getValue() < 17) {
+    var bust = (this.AIHand).addCards((this.deck).getCards(1));
+    if(bust) {
+      $("#results").text("The dealer went bust!  You win!");
+      return;
+    }
+  }
+  this.AIHand.displayHand("house");
+  if((this.AIHand).getValue() > (this.playerHand).getValue()) {
+    $("#results").text("The dealer beat you!  Sucks to be you!");
+  } else if ((this.AIHand).getValue() < (this.playerHand).getValue()) {
+    $("#results").text("You beat the house!  Nice job!");
+  } else {
+    $("#results").text("It's a draw!  Try again!");
+  }
+  this.endRound();
+}
+
 Hand.prototype.addCards = function(cards) {
   for(var i = 0; i < cards.length; i++) {
     (this.hand).push(cards[i]);
@@ -58,7 +77,7 @@ Hand.prototype.displayHand = function(target) {
   $("#" + target + "HandList").html("");
   (this.hand).forEach(function(card) {
     $("#" + target + "HandList").append("<li>" + card.name + "</li>")
-    showImage(card.imageSrc, "player");
+    showImage(card.imageSrc, target);
   });
 }
 
@@ -78,6 +97,8 @@ Hand.prototype.isOver21 = function() {
 }
 
 Hand.prototype.displayPartialHand = function() {
+  $("#houseHandList").html("");
+  $("#houseHandImg").html("");
   $("#houseHandList").append("<li>Unknown Card</li>");
   showImage("img/back.jpg", "house");
   for(var i = 1; i < (this.hand).length; i++) {
@@ -131,7 +152,11 @@ function makeCards() {
 
 $(document).ready(function() {
   var game = new Game("test");
+  var gameOver = false;
   $("#deal").click(function() {
+    debugger;
+    gameOver = false;
+    $("#results").text("");
     $("#houseHandImg").html("");
     $("#houseHandList").html("");
     $("#playerHandImg").html("");
@@ -140,9 +165,20 @@ $(document).ready(function() {
     // game.endRound();
   })
   $("#hitButton").click(function() {
-    var bust = (game.playerHand).addCards((game.deck).getCards(1));
-    if(bust) {
-      $("#results").text("Sorry bub!  You went bust!");
+    if(!gameOver) {
+      var bust = (game.playerHand).addCards((game.deck).getCards(1));
+      if(bust) {
+        $("#results").text("Sorry bub!  You went bust!");
+        game.AIHand.displayHand("house");
+        gameOver = true;
+        game.endRound();
+      }
+    }
+  })
+  $("#stayButton").click(function() {
+    if(!gameOver) {
+      gameOver = true;
+      game.stay();
     }
   })
 });
