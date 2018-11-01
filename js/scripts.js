@@ -153,7 +153,6 @@ function makeCards() {
   for(i = 0; i < DECK_SIZE; i++) {
     output.push(new Card(cardNames[i], images[i], Math.min(10, (i % 13) + 1), i % 13 === 0))
   }
-  console.log(output);
   return output;
 }
 
