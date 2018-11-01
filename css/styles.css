@@ -10,6 +10,10 @@ button {
   font-size: 14pt;
 }
 
+button:focus {
+  outline: none;
+}
+
 .container {
   text-align: center;
 }
@@ -19,6 +23,18 @@ button {
   color: white;
   border: solid #FFF90D 5px;
   text-shadow: 2px 2px black;
+}
+
+.disabled {
+  color: lightgray;
+}
+
+.disabled:hover {
+  color: lightgray;
+}
+
+.disabled:focus {
+  color: lightgray;
 }
 
 #houseHandList {

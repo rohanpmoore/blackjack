@@ -155,6 +155,8 @@ $(document).ready(function() {
   $("#deal").click(function() {
     game.endRound();
     gameOver = false;
+    $("#hitButton").removeClass("disabled");
+    $("#stayButton").removeClass("disabled");
     $("#results").text("");
     $("#houseHandImg").html("");
     $("#houseHandList").html("");
@@ -173,12 +175,16 @@ $(document).ready(function() {
         $("#results").text("Sorry bub!  You went bust!");
         game.AIHand.displayHand("house");
         gameOver = true;
+        $("#hitButton").addClass("disabled");
+        $("#stayButton").addClass("disabled");
       }
     }
   })
   $("#stayButton").click(function() {
     if(!gameOver) {
       gameOver = true;
+      $("#hitButton").addClass("disabled");
+      $("#stayButton").addClass("disabled");
       game.stay();
     }
   })
