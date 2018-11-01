@@ -25,11 +25,20 @@ function Game(playerOneName) {
 }
 
 Game.prototype.deal = function() {
-
+  (this.playerHand).addCards((this.deck).getCards(2));
+  (this.AIHand).addCards((this.deck).getCards(2));
+  (this.playerHand).displayHand();
 }
 
-Hand.prototype.addCard = function(card) {
-  (this.hand).push(card);
+Game.prototype.endRound = function() {
+  (this.deck).returnToDeck((this.playerHand).clearHand());
+  (this.deck).returnToDeck((this.AIHand).clearHand());
+}
+
+Hand.prototype.addCards = function(cards) {
+  for(var i = 0; i < cards.length; i++) {
+    (this.hand).push(cards[i]);
+  }
 }
 
 Hand.prototype.clearHand = function() {
@@ -43,14 +52,18 @@ Hand.prototype.displayHand = function() {
   });
 }
 
-Deck.prototype.getRandomCard = function() {
-   return (this.cards).splice(Math.floor(Math.random()*52), 1)[0];
+Deck.prototype.getCards = function(handSize) {
+  var hand = [];
+  for(var i = 0; i < handSize; i++) {
+    hand.push((this.cards).splice(Math.floor(Math.random()*52), 1)[0]);
+  }
+  return hand;
 }
 
 Deck.prototype.returnToDeck = function(cards) {
-  cards.forEach(function(card) {
-    (this.cards).push(card);
-  });
+  for(var i = 0; i < cards.length; i++) {
+    (this.cards).push(cards[i]);
+  }
 }
 
 var showImage = function(src) {
@@ -81,5 +94,11 @@ function makeCards() {
 }
 
 $(document).ready(function() {
-
+  var game = new Game("test");
+  $("#deal").click(function() {
+    $("#card-list").html("");
+    $("#cardImages").html("");
+    game.deal();
+    game.endRound();
+  })
 });
