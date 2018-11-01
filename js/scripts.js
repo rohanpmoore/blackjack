@@ -154,15 +154,16 @@ $(document).ready(function() {
   var game = new Game("test");
   var gameOver = false;
   $("#deal").click(function() {
-    debugger;
+    game.endRound();
     gameOver = false;
     $("#results").text("");
     $("#houseHandImg").html("");
     $("#houseHandList").html("");
     $("#playerHandImg").html("");
     $("#playerHandList").html("");
+    $("#gameBoard").show();
+    $("#deal").text("Play another round?");
     game.deal();
-    // game.endRound();
   })
   $("#hitButton").click(function() {
     if(!gameOver) {
