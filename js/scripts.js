@@ -41,6 +41,7 @@ Game.prototype.stay = function() {
   while((this.AIHand).getValue() < 17) {
     var bust = (this.AIHand).addCards((this.deck).getCards(1));
     if(bust) {
+      (this.AIHand).displayHand("house");
       $("#results").text("The dealer went bust!  You win!");
       return;
     }
