@@ -53,7 +53,6 @@ Game.prototype.stay = function() {
   } else {
     $("#results").text("It's a draw!  Try again!");
   }
-  this.endRound();
 }
 
 Hand.prototype.addCards = function(cards) {
@@ -125,8 +124,8 @@ Deck.prototype.returnToDeck = function(cards) {
 var showImage = function(src, target) {
   var img = document.createElement("img");
   img.src = src;
-  img.width = 200;
-  img.height = 300;
+  img.width = 150;
+  img.height = 225;
   img.alt = "card";
   $("#" + target + "HandImg").append(img);
 }
@@ -172,7 +171,6 @@ $(document).ready(function() {
         $("#results").text("Sorry bub!  You went bust!");
         game.AIHand.displayHand("house");
         gameOver = true;
-        game.endRound();
       }
     }
   })

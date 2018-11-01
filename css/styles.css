@@ -2,6 +2,10 @@ img {
   margin: 5px;
 }
 
+button {
+  font-size: 14pt;
+}
+
 .container {
   text-align: center;
 }
@@ -20,6 +24,12 @@ img {
   margin-right: auto;
   display: block;
 }
+
 #gameBoard {
   display: none;
+}
+
+#results {
+  font-weight: bold;
+  font-size: 14pt;
 }
